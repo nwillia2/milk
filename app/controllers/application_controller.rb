@@ -10,10 +10,18 @@ class ApplicationController < ActionController::Base
   private
     def current_user
       begin
-        @current_user ||= User.find(session[:user_id]) if session[:user_id]
+        if Rails.env.development?
+          @current_user = User.find_by(:name => "Neil Williams")
+          if @current_user.blank?
+            @current_user = User.create(:name => "Neil Williams")
+          end
+        else
+          @current_user ||= User.find(session[:user_id]) if session[:user_id]
+        end
       rescue Exception => e
         nil
       end
+      return @current_user
     end
 
     def user_signed_in?
