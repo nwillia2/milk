@@ -1,11 +1,11 @@
 <h1>Welcome</h1>
 <p><%= link_to 'Users:', users_path %> <%= User.count %> registered</p>
 
-<h2>My Milk</h2>
-<% if current_user.got_milk_date.present? %>
-	<p>I last brought <%= current_user.got_milk_quantity %> pint(s) of milk at <%= format_date(current_user.got_milk_date, "shortdatetime") %></p>
-<% end %>
 <% if current_user.present? %>
+	<h2>My Milk</h2>
+	<% if current_user.got_milk_date.present? %>
+		<p>I last brought <%= current_user.got_milk_quantity %> pint(s) of milk at <%= format_date(current_user.got_milk_date, "shortdatetime") %></p>
+	<% end %>
 	<%= form_for current_user do |f| %>
 		<div class="form-group">
 			<p>
