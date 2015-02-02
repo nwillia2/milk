@@ -2,7 +2,17 @@
 <p><%= link_to 'Users:', users_path %> <%= User.count %> registered</p>
 
 <h2>My Milk</h2>
-<p>I last brought milk at <%= format_date(current_user.got_milk_date, "shortdatetime") %></p>
+<% if current_user.got_milk_date.present? %>
+	<p>I last brought <%= current_user.got_milk_quantity %> pint(s) of milk at <%= format_date(current_user.got_milk_date, "shortdatetime") %></p>
+<% end %>
 <% if current_user.present? %>
-	<%= link_to "I've brought milk!", gotmilk_user_path(current_user), method: :post, data: { processing: "Saving..." }  %>
+	<%= form_for current_user do |f| %>
+		<div class="form-group">
+			<p>
+				I have brought <%= f.text_field :got_milk_quantity, :value => "1", :size => "2" %> pint(s) of milk.
+				<%= f.submit "Save", data: { disable_with: "Saving..." }, :class => "btn btn-primary" %>
+			</p>			
+		</div>
+				
+	<% end %>	
 <% end %>

@@ -10,15 +10,22 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
   
-  def gotmilk
+  def update
     @user = User.find(params[:id])
     if @user.present?
-      quantity = params[:quantity] if params[:quantity].present?
-      @user.update_attributes(:got_milk_date => Time.now, :got_milk_quantity => quantity)
-      redirect_to root_path, :notice => "Saved!"
+      user_params[:got_milk_date] = Time.now
+      if @user.update_attributes(user_params)
+        redirect_to root_path, :notice => "Saved!"
+      else
+        render "visitors/index"
+      end
     else
       redirect_to root_path, :warning => "Did not save!"    
-    end    
+    end
+  end
+
+  def user_params
+    params.require(:user).permit!
   end
 
 end
